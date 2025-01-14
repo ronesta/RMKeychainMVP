@@ -8,14 +8,11 @@
 import Foundation
 import Security
 
-final class KeychainService {
-    static let shared = KeychainService()
+final class KeychainService: StorageManagerProtocol {
     private let queue = DispatchQueue(label: "KeychainServiceQueue")
     private let charactersKey = "characters"
 
-    private init() {}
-
-    func saveCharacters(characters: [Character]) {
+    func saveCharacters(_ characters: [Character]) {
         do {
             let data = try JSONEncoder().encode(characters)
             let status = saveData(data, forKey: charactersKey)
