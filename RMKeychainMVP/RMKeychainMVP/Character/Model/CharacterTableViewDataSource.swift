@@ -10,7 +10,11 @@ import UIKit
 
 final class CharacterTableViewDataSource: NSObject, UITableViewDataSource, CharacterDataSourceProtocol {
     var characters = [Character]()
-    var presenter: CharacterPresenterProtocol?
+    private let presenter: CharacterPresenterProtocol
+
+    init(presenter: CharacterPresenterProtocol) {
+        self.presenter = presenter
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return characters.count
@@ -26,7 +30,7 @@ final class CharacterTableViewDataSource: NSObject, UITableViewDataSource, Chara
 
         let character = characters[indexPath.row]
 
-        presenter?.loadImage(for: character) { image in
+        presenter.loadImage(for: character) { image in
             DispatchQueue.main.async {
                 guard let currentCell = tableView.cellForRow(at: indexPath) as? CharacterTableViewCell else {
                     return

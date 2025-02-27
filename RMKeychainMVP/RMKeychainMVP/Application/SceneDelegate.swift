@@ -19,24 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window  = UIWindow(windowScene: windowScene)
 
-        let viewController = CharacterViewController()
-        let tableViewDataSource = CharacterTableViewDataSource()
-        let keychainService = KeychainService()
-        let networkManager = NetworkManager(storageManager: keychainService)
+        let assembly = CharacterAssembly()
+        let characterViewController = assembly.build()
 
-        let presenter = CharacterPresenter(
-            view: viewController,
-            networkManager: networkManager,
-            storageManager: keychainService
-        )
-
-        viewController.presenter = presenter
-        viewController.tableViewDataSource = tableViewDataSource
-        tableViewDataSource.presenter = presenter
-
-        let navigationControllet = UINavigationController(rootViewController: viewController)
-
-        window.rootViewController = navigationControllet
+        window.rootViewController = characterViewController
         self.window = window
         window.makeKeyAndVisible()
     }
